@@ -5,14 +5,14 @@ setlocale(LC_ALL, 'ru_RU.utf-8');
 function getDay($date, $weekday=false, $disabled=false){
 	$result = '<td'
 		.($disabled? ' class="disabled"':'')
-		.'>';
-	$day = strftime('%e'.($weekday?', %A':''), strtotime($date));
+		.'><div><div class="dummy"></div><div class="info">';
+	$day = strftime(($weekday?'%A, ':'').'%e', strtotime($date));
 	$result .= '<span class="date">'.$day.'</span>';
-	return $result;
+	return '</div></div>'.$result;
 }
 
 function getCalendar($date){
-	$result = '<table><tbody>';
+	$result = '<table class="month"><tbody>';
 
 	$timestamp = strtotime($date);
 	$cur_month = date("Y-m-", $timestamp);
@@ -52,6 +52,8 @@ function getCalendar($date){
 ?>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
 <div id="top-panel">
@@ -62,7 +64,7 @@ function getCalendar($date){
 </div>
 </div><!--top-panel-->
 <div id="container">
-<div id="month-selector"></div>
+<div id="month-selector"><span id="to-prev-month" class="small-button">◂</span><span class="month-name">Март 2013</span><span id="to-next-month" class="small-button">▸</span><span id="to-today" class="small-button">Сегодня</span></div>
 <?php echo getCalendar(@$_GET["month"]?:"2013-08-30");?>
 </div><!--container-->
 </body>
