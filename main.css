@@ -1,8 +1,9 @@
 * { 
-	box-sizing:border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 body {
-	font-family: Arial;
+	font-family: 'Roboto Condensed', Arial, sans-serif;
 }
 
 #top-panel {
@@ -25,12 +26,17 @@ body {
 	cursor:pointer;
 	text-shadow: 0 0 2px black;
 	font-weight:bold;
+	box-shadow: 1px 1px 2px hsl(207, 0%, 70%);
 }
 
 .button:hover {
 	background: hsl(207, 70%, 40%);
-	color:  hsl(207, 0%, 70%);
+	color:  hsl(207, 50%, 80%);
 
+}
+
+.button:active{
+	box-shadow: -2px -2px 3px 2px hsl(207, 70%, 20%);
 }
 
 #add-button-top, #refresh-button-top {
@@ -79,26 +85,90 @@ td div.info {
 	left:0;
 	right:0;
 	padding: 3px 6px;
+	font-size:12px;
+	color:hsl(207, 0%, 42%);
+	overflow:hidden;
+
 }
 
 td .date {
 	color:hsl(207, 0%, 62%);
 }
 
-input[type~=text]{
-	padding:4px;
-	margin:0px;
+td.today {
+	background:hsl(207, 0%, 96%);
 }
 
-#search-bar input {
-	width:100%;
+td.today .date{
+	font-weight: bold;
+}
+
+td.event {
+	background: hsl(207, 100%, 88%);
+}
+
+td.selected > div{
+	background: hsl(207, 63%, 94%);
+	border: 2px solid hsl(207, 72%, 72%);
+}
+
+td.selected div.dummy {
+	width: -webkit-calc(100% - 2px);
+	width: -moz-calc(100% - 2px);
+	width: calc(100% - 2px);
+	padding-bottom:100%;
+}
+
+td .title {
+	font-weight:bold;
+}
+td div.info div {
+	line-height: 15px;
+	margin-bottom: 3px;
+}
+
+input[type=text], textarea{
+	padding:4px;
+	margin:0px;
 	border: 1px solid hsl(207, 0%, 82%);
 	border-radius: 2px;
 	box-shadow: 0 1px 2px 0px hsl(207, 0%, 70%) inset;
+	height: 25px;
+	width: 100%;
+	float:right;
 }
 
-input.autoclear {
+input[type=text]{
+	height: 25px;
+}
+
+
+#search-bar input {
+	width:100%;
+}
+
+input.autoclear, textarea.autoclear {
 	color: hsl(207, 0%, 82%);
+}
+
+input.using, textarea.using {
+	color:black;
+	font-size: 15px;
+}
+
+.clear-input {
+	display:none;
+	float:right;
+	margin-top:-21px;
+	width: 20px;
+	height: 20px;
+	text-align: right;
+	font-size: 13px;
+	z-index: 2;
+	color: hsl(207, 0%, 69%);
+	margin-right: 5px;
+	text-shadow: 0 0 1px;
+	cursor:pointer;
 }
 
 #search-bar {
@@ -118,19 +188,35 @@ input.autoclear {
 
 #month-selector .month-name {
 	font-size: 16px;
+	width: 120px;
+	text-align:center;
+	display:inline-block;
 }
 
 .small-button {
 	cursor:pointer;
-	padding:0 5px 0;
 	border-radius:4px;
 	box-shadow: 0 0 3px hsl(207, 0%, 70%) inset;
 	margin: 4px;
+	padding: 4px;
 	display: inline-block;
 	color:  hsl(207, 0%, 40%);
+	background: white;
+	border:none;
+}
+
+.small-button:hover {
+	color:  hsl(207, 0%, 20%);	
+	box-shadow: 0 0 6px hsl(207, 0%, 50%) inset;
+}
+
+.small-button:active {
+	color:  hsl(207, 0%, 10%);	
+	box-shadow: 1px 1px 10px hsl(207, 0%, 50%) inset;
 }
 
 #to-next-month, #to-prev-month {
+	padding:0 5px 0;
 	width:17px;
 	height:17px;
 	font-size: 9px;
@@ -138,5 +224,126 @@ input.autoclear {
 	text-align:center;
 }
 
+#to-today {
+	padding:0 5px 0;
+}
+
+
+.dialog {
+	position:absolute;
+	padding: 20px;
+	z-index:2;
+}
+
+.dialog, .dialog .arrow div {
+	background: white;
+	border: 1px solid hsl(207, 0%, 82%);
+	box-shadow: 1px 1px 7px hsl(207, 0%, 82%);
+}
+
+.dialog input[type=text], .dialog textarea{
+	width:100%;
+}
+
+.dialog .small-button {
+	margin: 10px 0 0;
+}
+
+.dialog .close {
+	cursor:pointer;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 20px;
+	height: 20px;
+	padding: 2px 0 0 5px;
+	font-size: 10px;
+	color: hsl(207, 0%, 35%);
+}
+
+.dialog .close:hover{
+	text-shadow: 0 0 1px hsl(207, 0%, 35%);
+}
+
+.dialog .close:active{
+	top:-1px;
+	right: -1px;
+}
+
+.dialog .arrow{
+	overflow:hidden;
+	position:absolute;
+	height:15px;
+	width:30px;
+}
+
+.dialog .arrow div {
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	transform: rotate(45deg);
+	width: 20px;
+	height:20px;
+	position: absolute;
+	top:50%;
+	left:0;
+
+}
+
+.dialog .arrow.top {
+	top: -15px;
+	left: 20px;
+}
+
+.dialog .arrow.left {
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	transform: rotate(-90deg);
+	left: -23px;
+	top: 20px;
+}
+
+.dialog textarea {
+	height: 11vw;
+	resize:none;
+}
+
+#fast-create {
+	width:30%;
+	top:50px;
+	left:50px;
+}
+
+#event-create{
+	width: 30%;
+	top:100px;
+	left:100px;
+}
+
+#event-create input[type=text] {
+	margin-bottom: 6px;
+}
+
+#event-create textarea {
+	margin-top: 30px;
+}
+
+#event-create .clear-input{
+	margin-top: -27px;
+}
+
+#event-create .clear-input:last-of-type{
+	margin-top: -webkit-calc(-27px - 16.5%);
+	margin-top: calc(-27px - 16.5%);
+
+}
+
+#event-create [name=title] {
+	font-size:17px;
+	font-weight:bold;
+}
+
+.dialog {
+	display:none;
+}
 
 
