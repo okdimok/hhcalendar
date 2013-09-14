@@ -36,7 +36,8 @@ body {
 }
 
 .button:active{
-	box-shadow: -2px -2px 3px 2px hsl(207, 70%, 20%);
+	box-shadow: 2px 2px 3px hsl(207, 70%, 20%) inset;
+	padding:.29em .6em .24em .8em;
 }
 
 #add-button-top, #refresh-button-top {
@@ -245,6 +246,12 @@ input.using, textarea.using {
 	width:100%;
 }
 
+.dialog .mimic {
+	border:none;
+	box-shadow:none;
+	cursor: pointer;
+}
+
 .dialog .small-button {
 	margin: 10px 0 0;
 }
@@ -338,8 +345,27 @@ input.using, textarea.using {
 }
 
 #event-create [name=title] {
-	font-size:17px;
+	font-size:16px;
 	font-weight:bold;
+}
+
+#event-create .date {
+	font-size: 13px;
+	margin-top:5px;
+	padding-left:5px;
+	float:left;
+}
+#event-create [name=participants] {
+	margin-top: 7px;
+}
+#participants-title {
+	font-weight:bold;
+	width:100%;
+	float:left;
+	color: hsl(207, 0%, 42%);
+	margin:15px 0 -5px;
+	padding-left: 5px;
+	display:none;
 }
 
 .dialog {

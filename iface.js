@@ -24,8 +24,16 @@ $(function(){
 			.val($td.data('date')));
 		form.find('[name=title]').next().after($('<div class="date"/>')
 			.html($td.data('russian-date')));
+		if ($td.hasClass('event')) {
+			['title', 'participants', 'description'].forEach(function(entry){
+				var val = $td.find('.'+entry).html();
+				if (val) form.find('[name='+entry+']').val(val).addClass("using").addClass("mimic");
+				});
+		}
+		if (form.find('[name=participants]').hasClass('mimic')) form.find('#participants-title').css('display', 'block');
 		copy.appendTo('body').show();
-		form.find('input[type=text]').eq(0).focus();
+		//form.find('input[type=text]:not(.mimic), textarea:not(.mimic)').eq(0).focus();
+		
 
 	}
 
@@ -41,15 +49,19 @@ $(function(){
 	
 	bindContainerClicks();
 
-	var autoclear = function(){
+	function autoclear(){
 		var $this = $(this);
-		if (!$this.data('value')) $this.data('value', $(this).val());
-			$this
-			.val('')
-			.addClass('using')
-			.next().show();
+		$this
+		.next().show();
+		if ($this.hasClass('mimic')){
+			$this.removeClass('mimic');
 			return false;
-	};
+		}
+		$this
+		.val('')
+		.addClass('using');
+		return false;
+	}
 
 	function bindDialogClicks(){
 		$('.dialog .close').on('click.close', function(){
@@ -58,6 +70,10 @@ $(function(){
 		});
 
 		$('input[type=text], textarea')
+		.each(function(){
+			var $this= $(this);
+			$this.data('value', $this.val());
+			})
 		.after(
 			$('<div class="clear-input">⨯</div>')
 			.on('click.clear', function(){
@@ -85,7 +101,6 @@ $(function(){
 		$('form').on('submit.clean', function(){
 			var $this = $(this);
 			$this.find('input[type=text]:not(.using), textarea:not(.using)').val('');
-			console.log($this);
 		});
 
 		$('#event-create form [name=action]').on('click.prepare', function(){

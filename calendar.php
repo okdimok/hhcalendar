@@ -78,7 +78,7 @@ function eventCreateAction() {
 	global $pdo;
 	if ($_REQUEST['action'] === 'Удалить'){
 			$request = $pdo->prepare("DELETE FROM events where date=:date");
-			$request->execute(array(':date'=>$event->date));
+			$request->execute(array(':date'=>$_REQUEST['date']));
 	} else {
 		$event = new stdClass();
 		$event->date = $_REQUEST['date'];
@@ -239,10 +239,11 @@ function defaultView(){
 	<div class="close" title="Закрыть">⨯</div>
 	<form method="post">
 	<input type="text" class="autoclear" name="title" value="Событие"/><br>
+	<div id="participants-title">Участники:</div><br>
 	<input type="text" class="autoclear" name="participants" value="Имена участников"/><br>
 	<textarea class="autoclear" name="description">Описание</textarea><br>
 	<input type="hidden" name="act" value="event-create"/>
-	<input type="submit" class="small-button" name="action" value="Создать"/>
+	<input type="submit" class="small-button" name="action" value="Готово"/>
 	<input type="submit" class="small-button" name="action" value="Удалить"/>
 	</form>
 	</div>
