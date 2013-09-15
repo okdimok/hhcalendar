@@ -139,6 +139,12 @@ input[type=text], textarea{
 	float:right;
 }
 
+input[type=text]:focus, textarea:focus {
+	border: 1px solid hsl(207, 80%, 82%);
+	box-shadow: 0 1px 2px 0px hsl(207, 80%, 70%) inset;
+}
+
+
 input[type=text]{
 	height: 25px;
 }
