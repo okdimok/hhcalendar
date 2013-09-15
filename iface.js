@@ -8,6 +8,13 @@ $(function(){
 	$('#refresh-button-top').on('click.refresh', function(){
 		monthSwitch(true);
 		});
+	
+	$('#add-button-top').on('click.fast-add', function(){
+			$(this).addClass('hover');
+			$('#fast-create').remove();
+			fastCreateDialogCopy.clone(true).appendTo('body')
+			.show();
+		});
 
 	function eventEditDialog($td){
 		$info = $td.find('.info');
@@ -107,14 +114,29 @@ $(function(){
 			var $this = $(this);
 			$this.before($('<input type="hidden" name="action">').val($this.val()))
 			.before($('<input type="hidden" name="load-date">').val($('.month-name').data('date')));
-			});
+		});
 
 		$('#event-create form').on('submit.ajax', function(e){
 			$('#container').load('', $(this).serialize(), bindContainerClicks);
 			$('#event-create').remove();
 			e.preventDefault();
 		});
+
+		$('#fast-create .close').on('click.unhover', function(){
+			$('#add-button-top').removeClass('hover');
+			});
+		
+		$('#fast-create form').on('submit.unhover', function(){
+			$('#add-button-top').removeClass('hover');
+			});
+		$('#fast-create form').on('submit.ajax', function(e){
+				$('#container').load('', $(this).serialize(), bindContainerClicks);
+				$('#fast-create').remove();
+				e.preventDefault();
+			});
+
 	}
+
 	
 	bindDialogClicks();
 

@@ -29,7 +29,7 @@ body {
 	box-shadow: 1px 1px 2px hsl(207, 0%, 70%);
 }
 
-.button:hover {
+.button:hover, .button.hover {
 	background: hsl(207, 70%, 40%);
 	color:  hsl(207, 50%, 80%);
 
@@ -253,7 +253,7 @@ input.using, textarea.using {
 }
 
 .dialog .small-button {
-	margin: 10px 0 0;
+	margin: 10px 10px 0 0;
 }
 
 .dialog .close {
@@ -316,7 +316,7 @@ input.using, textarea.using {
 
 #fast-create {
 	width:30%;
-	top:50px;
+	top:100px;
 	left:50px;
 }
 

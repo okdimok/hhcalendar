@@ -2,6 +2,7 @@
 <?php
 setlocale(LC_ALL, 'ru_RU.utf-8');
 $pdo = null;
+
 function connect(){
 	global $pdo;
 	try {
@@ -60,6 +61,34 @@ function russianDate($date, $week_day=true) {
   return $result;
 }
 
+function dateFromRussian($rdate) {
+	  $Months = array("01"=>"янв",
+                  "02"=>"фев",
+                  "03"=>"мар",
+                  "04"=>"апр",
+                  "05"=>"мая",
+                  "06"=>"июн", 
+                  "07"=>"июл",
+                  "08"=>"авг",
+                  "09"=>"сен",
+                  "10"=>"окт",
+                  "11"=>"ноя",
+				  "12"=>"дек");
+	$rdate = explode(" ", $rdate);
+	$month = 0;
+
+	foreach ($Months as $mn => $ms) {
+		if (strpos($rdate[1], $ms)!==false) {
+			$month = $mn;
+			break;
+		}
+	}
+
+	$year = date("Y");
+	$day = $rdate[0];
+	return "$year-$month-$day";
+}
+
 function getEvent($event) {
 	$result = '<div class="title">'
 	.$event->title
@@ -89,6 +118,17 @@ function eventCreateAction() {
 	} 	
 }
 
+function fastCreateAction() {
+	$fc = @$_REQUEST['fast-create'];
+	if (!$fc) return;
+	$fc = explode(', ', $fc);
+	$event = new stdClass();
+	$event->date = dateFromRussian($fc[0]);
+	$event->title = @$fc[1];
+	$event->participants = @$fc[2];
+	updateEvent($event);
+}
+
 function updateEvent($event){
 	global $pdo;
 	$request = $pdo->prepare("SELECT * FROM events where date=:date");
@@ -101,8 +141,8 @@ function updateEvent($event){
 	$updating->execute(array(
 		':title'=>$event->title,
 		':date'=>$event->date,
-		':participants'=>$event->participants,
-		':description'=>$event->description
+		':participants'=>@$event->participants?:'',
+		':description'=>@$event->description?:''
 	));
 }
 
@@ -195,6 +235,9 @@ function runAction(){
 	} elseif ($act === 'event-create'){
 		eventCreateAction();
 		return monthLoadView();
+	} elseif ($act === 'fast-create') {
+		fastCreateAction();
+		return monthLoadView();
 	}
 	else {
 		return defaultView();
@@ -226,10 +269,10 @@ function defaultView(){
 	.getCalendar($date)
 	.'</div><!--container-->
 	<div id="fast-create" class="dialog">
-	<div class="arrow left"><div></div></div>
+	<div class="arrow top"><div></div></div>
 	<div class="close" title="Закрыть">⨯</div>
 	<form method="post">
-	<input type="text" class="autoclear" name="fast-create" value="6 октября, 9:00, ПроУлочки"/><br>
+	<input type="text" class="autoclear" name="fast-create" value="6 октября, ПроУлочки"/><br>
 	<input type="hidden" name="act" value="fast-create"/>
 	<input type="submit" class="small-button" value="Создать"/>
 	</form>
