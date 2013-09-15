@@ -20,12 +20,22 @@ $(function(){
 		$info = $td.find('.info');
 		position = $td.offset();
 		$('#event-create').remove();
-		var copy = eventEditDialogCopy.clone(true)
-		.css({
-			'position':'absolute',
-			'top':position.top -20,
-			'left': position.left + $td.width() + 14
-			});
+		var copy = eventEditDialogCopy.clone(true);
+		if($td.index() < 4)
+			copy
+			.css({
+				'top':position.top -20,
+				'left': position.left + $td.width() + 14
+				});
+		else {
+			var wdth = $(window).width()
+			copy
+			.css({
+				'top':position.top -20,
+				'right': wdth - position.left + 14
+				})
+			.find('.arrow').removeClass('left').addClass('right');
+		}
 		var form = copy.find('form');
 		form.append($('<input type="hidden" name="date"/>')
 			.val($td.data('date')));

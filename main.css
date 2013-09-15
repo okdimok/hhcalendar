@@ -309,6 +309,16 @@ input.using, textarea.using {
 	top: 20px;
 }
 
+.dialog .arrow.right {
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	transform: rotate(90deg);
+	right: -22px;
+	top: 30px;
+}
+
+
+
 .dialog textarea {
 	height: 11vw;
 	resize:none;
@@ -323,7 +333,6 @@ input.using, textarea.using {
 #event-create{
 	width: 30%;
 	top:100px;
-	left:100px;
 }
 
 #event-create input[type=text] {
